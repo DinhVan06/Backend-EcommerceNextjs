@@ -41,10 +41,17 @@ const employeeSchema = new Schema({
       message: `birthday: {value} is invalid!`,
     },
   },
+  password: { type: String },
   imageUrl: { type: String, required: false },
-  images: { type: Array, required: false },
+  isDelete: { type: Boolean, default: false },
+});
+// Virtuals
+employeeSchema.virtual("fullName").get(function () {
+  return this.firstName + " " + this.lastName;
 });
 
-const Employee = model("employee", employeeSchema);
+employeeSchema.set("toJSON", { virtuals: true });
+employeeSchema.set("toObject", { virtuals: true });
+const Employee = model("Employee", employeeSchema);
 
 module.exports = Employee;

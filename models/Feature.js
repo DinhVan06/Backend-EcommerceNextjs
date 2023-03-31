@@ -15,5 +15,5 @@ const featureSchema = new Schema({
   isDelete: { type: Boolean, required: true },
 });
 
-const Feature = model("feature", featureSchema);
+const Feature = model("Feature", featureSchema);
 module.exports = Feature;

@@ -26,7 +26,7 @@ const orderSchema = new Schema({
   createdDate: {
     type: Date,
     required: true,
-    default: Date.now(),
+    default: new Date(),
   },
 
   shippedDate: {
@@ -46,14 +46,23 @@ const orderSchema = new Schema({
   status: {
     type: String,
     required: true,
-    default: "WAITING",
+    default: "WAITING CONFIRMATION ORDER",
     validate: {
       validator: (value) => {
-        if (["WAITING", "COMPLETED", "CANCELED"].includes(value)) {
+        if (
+          [
+            "WAITING CONFIRMATION ORDER",
+            "CONFIRMED ORDER",
+            "SHIPPING CONFIRMATION",
+            "DELIVERY IN PROGRESS",
+            "DELIVERY SUCCESS",
+            "RECEIVED ORDER",
+            "CANCELED ORDER",
+          ].includes(value)
+        ) {
           return true;
-        } else {
-          return false;
         }
+        return false;
       },
       message: `status: {status} is invalid`,
     },
@@ -69,11 +78,7 @@ const orderSchema = new Schema({
     default: "CASH",
     validate: {
       validator: (value) => {
-        if (
-          ["CREDIT CARD", "CASH", "MOMO", "ZALOPAY"].includes(
-            value.toUpperCase()
-          )
-        ) {
+        if (["CASH", "MOMO"].includes(value.toUpperCase())) {
           return true;
         }
         return false;
@@ -81,16 +86,25 @@ const orderSchema = new Schema({
       message: `Payment type: {VALUE} is invalid!`,
     },
   },
-  customerId: { type: Schema.Types.ObjectId, ref: "Customer", required: true },
+  customerId: { type: Schema.Types.ObjectId, ref: "Customer", required: false },
   employeeId: {
     type: Schema.Types.ObjectId,
     ref: "Employees",
-    required: true,
+    required: false,
   },
-  contactInformation: { type: Object, required: true },
-  shippingInformation: { type: Object, required: true },
-  PaymentInformation: { type: Object, required: true },
+  // tên
+  fullName: {
+    type: String,
+    required: false,
+  },
+
+  // số điện thoại
+  phoneNumber: {
+    type: String,
+    required: false,
+  },
   orderDetails: [orderDetailSchema],
+  isDelete: { type: Boolean, default: false },
 });
 
 // Virtual with Populate
@@ -100,18 +114,17 @@ orderSchema.virtual("customer", {
   foreignField: "_id",
   justOne: true,
 });
+
 orderSchema.virtual("employee", {
-  ref: "Employees",
+  ref: "Employee",
   localField: "employeeId",
   foreignField: "_id",
   justOne: true,
 });
-// Virtuals in Object();
+
+orderSchema.set("toJSON", { virtuals: true });
 orderSchema.set("toObject", { virtuals: true });
 
-// Virtuals in JSON()
-orderSchema.set("toJSON", { virtuals: true });
-
 orderSchema.plugin(mongooseLeanVirtuals);
-const Order = model("order", orderSchema);
+const Order = model("Order", orderSchema);
 module.exports = Order;

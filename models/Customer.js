@@ -41,8 +41,9 @@ const customerSchema = new Schema({
       message: `birthday: {value} is invalid!`,
     },
   },
+  password: { type: String },
   imageUrl: { type: String, required: false },
-  images: { type: Array, required: false },
+  isDelete: { type: Boolean, default: false },
 });
 // virtual
 customerSchema.virtual("fullName").get(function () {
@@ -55,5 +56,5 @@ customerSchema.set("toObject", { virtuals: true });
 customerSchema.set("toJSON", { virtuals: true });
 
 customerSchema.plugin(mongooseLeanVirtuals);
-const Customer = model("customer", customerSchema);
+const Customer = model("Customer", customerSchema);
 module.exports = Customer;

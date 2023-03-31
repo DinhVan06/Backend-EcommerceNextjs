@@ -31,5 +31,5 @@ const loginSchema = new Schema({
     },
   },
 });
-const Login = model("login", loginSchema);
+const Login = model("Login", loginSchema);
 module.exports = Login;

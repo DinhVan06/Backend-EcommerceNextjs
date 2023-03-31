@@ -44,7 +44,7 @@ router.get("/", (req, res, next) => {
 router.get("/:id", (req, res) => {
   try {
     const { id } = req.params;
-    Employee.find(id)
+    Employee.findById(id)
       .then((result) => {
         res.send(result);
       })
@@ -85,20 +85,4 @@ router.delete("/:id", (req, res, next) => {
     });
 });
 
-// search
-router.get("/search/fullname", (req, res, next) => {
-  const { text } = req.query;
-  const query = { fullName: new RegExp(`${text}`) };
-  const sort = { fullName: -1 };
-  const limit = 5;
-  const skip = 1;
-  const object = {};
-  findDocuments(query, COLLECTION_NAME, sort, limit, skip, object)
-    .then((result) => {
-      res.send(result);
-    })
-    .catch((err) => {
-      res.status(500).json(err);
-    });
-});
 module.exports = router;

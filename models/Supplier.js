@@ -28,9 +28,8 @@ const supplierSchema = new Schema({
     },
   },
   address: { type: String, required: true },
-  imageUrl: { type: String, required: true },
-  images: { type: Array, required: true },
+  isDelete: { type: Boolean, default: false },
 });
-const Supplier = model("supplier", supplierSchema);
+const Supplier = model("Supplier", supplierSchema);
 
 module.exports = Supplier;

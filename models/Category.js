@@ -3,10 +3,9 @@ const { Schema, model } = mongoose;
 
 const categorySchema = new Schema({
   name: { type: String, required: true },
-  description: String,
-  promotionPosition: { type: Array, required: true },
   imageUrl: { type: String, required: false },
-  sortOrder: { type: Number, required: true },
+  description: String,
+  isDelete: { type: Boolean, default: false },
 });
 const Category = model("Category", categorySchema);
 

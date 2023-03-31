@@ -28,6 +28,9 @@ router.post("/", (req, res, next) => {
 router.get("/", (req, res, next) => {
   try {
     Order.find()
+      .populate("orderDetails.product")
+      // .populate("customer")
+      .populate("employee")
       .then((result) => {
         res.send(result);
       })
@@ -45,6 +48,9 @@ router.get("/:id", (req, res) => {
   try {
     const { id } = req.params;
     Order.find(id)
+      .populate("orderDetails.product")
+      // .populate("customer")
+      .populate("employee")
       .then((result) => {
         res.send(result);
       })

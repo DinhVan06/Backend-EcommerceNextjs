@@ -26,6 +26,7 @@
     "passport": "^0.6.0",
     "passport-http": "^0.3.0",
     "passport-jwt": "^4.0.0",
+    "populate": "^5.0.1",
     "webpack-dev-server": "^4.11.1",
     "yup": "^0.32.11"
   },

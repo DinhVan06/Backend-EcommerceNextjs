@@ -90,20 +90,4 @@ router.delete("/:id", (req, res, next) => {
     res.status(500);
   }
 });
-// search category
-router.get("/search/name", (req, res, next) => {
-  const { text } = req.query;
-  const query = { name: new RegExp(`${text}`) };
-  const sort = { name: -1 };
-  const limit = 10;
-  const skip = 1;
-  const object = {};
-  findDocuments(query, COLLECTION_NAME, sort, limit, skip, object)
-    .then((results) => {
-      res.json(results);
-    })
-    .catch((err) => {
-      res.status(500).json(err);
-    });
-});
 module.exports = router;
