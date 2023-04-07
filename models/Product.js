@@ -16,10 +16,12 @@ const productSchema = new Schema({
   },
   discount: { type: Number, min: 0, max: 100, required: false, default: 0 },
   stock: { type: Number, min: 0, required: true },
+  unit: { type: Number, min: 0, required: true },
   categoryId: { type: Schema.Types.ObjectId, ref: "Category", required: true },
   supplierId: { type: Schema.Types.ObjectId, ref: "Supplier", required: true },
   description: { type: String, required: false },
   isDelete: { type: Boolean, default: false },
+  imageUrl: { type: String, required: false },
 });
 
 // virtual
