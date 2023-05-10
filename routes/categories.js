@@ -31,6 +31,7 @@ router.post("/", (req, res, next) => {
 router.get("/", (req, res, next) => {
   try {
     Category.find()
+      .sort({ createdAt: -1 })
       .then((result) => {
         res.send(result);
       })

@@ -27,6 +27,7 @@ router.post("/", function (req, res, next) {
 router.get("/", function (req, res, next) {
   try {
     Product.find()
+      .sort({ createdAt: -1 })
       .populate("category")
       .populate("supplier")
       .then((result) => {
@@ -78,4 +79,14 @@ router.delete("/:id", function (req, res, next) {
   }
 });
 
+// query
+router.post("/discount-query", async (req, res, next) => {
+  try {
+    let query = { discount: { $gte: 10 } };
+    const result = await findDocuments({ query: query }, "products");
+    res.json({ ok: true, result });
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
 module.exports = router;
